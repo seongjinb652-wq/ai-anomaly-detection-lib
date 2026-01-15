@@ -69,6 +69,7 @@ def reduce_anomalies(df, pct_anomalies=0.01):
 # -----------------------------
 dtrain = xgb.DMatrix(x_train, label=y_train)
 dtest = xgb.DMatrix(x_test, label=y_test)
+evals = [(dtrain, 'train'), (dtest, 'test')]
 
 params = {
     'objective': 'binary:logistic',
