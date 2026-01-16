@@ -1,0 +1,51 @@
+
+
+# The decoder network is a mirror image of the encoder network
+decoder = Dense(##FIXME##, activation='tanh', name='decoder_1')(##Replace with the layer name that feeds this one##)
+decoder = Dropout(.1)(decoder)
+decoder = Dense(##FIXME##, activation='tanh', name='decoder_2')(##Replace with the layer name that feeds this one##)
+decoder = Dropout(.1)(decoder)
+decoder = Dense(##FIXME##, activation='tanh', name='decoder_3')(##Replace with the layer name that feeds this one##)
+decoder = Dropout(.1)(decoder)
+decoder = Dense(##FIXME##, activation='tanh', name='decoder_4')(##Replace with the layer name that feeds this one##)
+decoder = Dropout(.1)(decoder)
+
+# The output is the same dimension as the input data we are reconstructing
+reconstructed_data = Dense(input_dim, activation='linear', name='reconstructed_data')(##Replace with the layer name that feeds this one##)
+
+
+autoencoder_model = Model(input_data, reconstructed_data)
+
+autoencoder_model.summary()
+#
+plot_model(
+    autoencoder_model, 
+    to_file='autoencoder_model.png', 
+    show_shapes=True, 
+    show_layer_names=True, 
+    rankdir='TB' # TB for top to bottom, LR for left to right
+)
+
+Image(filename='autoencoder_model.png')
+
+#Compile the Model
+opt = optimizers.Adam(learning_rate=.00001)
+
+autoencoder_model.compile(optimizer=opt, loss='mse', metrics=['accuracy'])
+
+# Train on the KDD99 Data
+logdir = os.path.join("logs", datetime.datetime.now().strftime("%Y%m%d-%H%M%S"))
+tensorboard_callback = tf.keras.callbacks.TensorBoard(logdir,profile_batch=0,update_freq='epoch',histogram_freq=1)
+
+train_history = autoencoder_model.fit(x_train, x_train,
+        shuffle=True,
+        epochs=max_epochs,
+        batch_size=batch_size,
+        validation_data=(x_test, x_test),
+        callbacks=[tensorboard_callback])
+
+plt.plot(train_history.history['loss'])
+plt.plot(train_history.history['val_loss'])
+plt.legend(['loss on train data', 'loss on validation data'])
+
+
