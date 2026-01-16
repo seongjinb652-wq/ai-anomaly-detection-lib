@@ -1,17 +1,20 @@
 
-
 # The decoder network is a mirror image of the encoder network
-decoder = Dense(##FIXME##, activation='tanh', name='decoder_1')(##Replace with the layer name that feeds this one##)
+decoder = Dense(16, activation='tanh', name='decoder_1')(latent_encoding)
 decoder = Dropout(.1)(decoder)
-decoder = Dense(##FIXME##, activation='tanh', name='decoder_2')(##Replace with the layer name that feeds this one##)
+decoder = Dense(48, activation='tanh', name='decoder_2')(decoder)
 decoder = Dropout(.1)(decoder)
-decoder = Dense(##FIXME##, activation='tanh', name='decoder_3')(##Replace with the layer name that feeds this one##)
+decoder = Dense(64, activation='tanh', name='decoder_3')(decoder)
 decoder = Dropout(.1)(decoder)
-decoder = Dense(##FIXME##, activation='tanh', name='decoder_4')(##Replace with the layer name that feeds this one##)
+decoder = Dense(96, activation='tanh', name='decoder_4')(decoder)
 decoder = Dropout(.1)(decoder)
 
 # The output is the same dimension as the input data we are reconstructing
-reconstructed_data = Dense(input_dim, activation='linear', name='reconstructed_data')(##Replace with the layer name that feeds this one##)
+reconstructed_data = Dense(input_dim, activation='linear', name='reconstructed_data')(decoder)
+
+
+# The output is the same dimension as the input data we are reconstructing
+# reconstructed_data = Dense(input_dim, activation='linear', name='reconstructed_data')(##Replace with the layer name that feeds this one##)
 
 
 autoencoder_model = Model(input_data, reconstructed_data)
