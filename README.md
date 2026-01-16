@@ -16,6 +16,8 @@ RT-IoT2022	(2022) ** 	IoT 환경 기반, 다양한 IoT 디바이스와 공격 �
 
 HIKARI-2021	(2021)	실제 네트워크 환경 기반 데이터셋	Botnet, Ransomware, Cloud 보안 등 다양한 시나리오
 
+Applications of AI for Anomaly Detection
+
 ## Dataset 준비
 
 이 프로젝트는 **KDD Cup 1999 Intrusion Detection Dataset**을 사용합니다.  
